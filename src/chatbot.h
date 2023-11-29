@@ -32,11 +32,11 @@ public:
 
     // Disallow copying, as there doesn't seem to be use case for multiple
     // ChatBots.
-    ChatBot(const ChatBot &source) = delete;
-    ChatBot &operator=(const ChatBot &source) = delete;
+    ChatBot(const ChatBot& source) = delete;
+    ChatBot& operator=(const ChatBot& source) = delete;
 
-    ChatBot(ChatBot &&source);
-    ChatBot &operator=(ChatBot &&source);
+    ChatBot(ChatBot&& source);
+    ChatBot& operator=(ChatBot&& source);
 
     ////
     //// EOF STUDENT CODE

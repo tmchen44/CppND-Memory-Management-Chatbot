@@ -1,5 +1,6 @@
 #include "graphedge.h"
 #include "graphnode.h"
+#include "chatlogic.h"
 #include <memory>
 
 GraphNode::GraphNode(int id)
@@ -33,16 +34,18 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 
 //// STUDENT CODE
 ////
-void GraphNode::MoveChatbotHere(ChatBot *chatbot)
+void GraphNode::MoveChatbotHere(ChatBot chatBot)
 {
-    _chatBot = chatbot;
-    _chatBot->SetCurrentNode(this);
+    _chatBot = std::move(chatBot);
+    // Re-set ChatBot handle within ChatLogic since ChatBot has been moved
+    // to this node, and the address is different.
+    (_chatBot.GetChatLogicHandle())->SetChatbotHandle(&_chatBot);
+    _chatBot.SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    newNode->MoveChatbotHere(std::move(_chatBot));
 }
 ////
 //// EOF STUDENT CODE
